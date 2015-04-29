@@ -1,8 +1,8 @@
-# Project X
+MAYDAY - FAA Accident/Incident Visualization
+======================
 
-TODO describe project here
+This visualization provides interesting insight into the FAA accident/incident dataset from a temporal perspective.
 
-A live demo can be found [here](http://NYU-CS6313-Projects.github.io/sp2015-group3/).
+Current Status: Development In Progress
 
-You can use the `deploy.sh` script to keep the `gh-pages` branch up-to-date.
-When forking this project be sure to update the link to the demo page in this file.
+[Visit the visualization's demo](http://maydayviz.azurewebsites.net/)

@@ -1,0 +1,342 @@
+body {
+  font: 10px sans-serif;
+  shape-rendering: crispEdges;
+}
+
+form p {
+  margin-bottom: 0px !important;
+}
+
+#primary-head {
+  /*width: 750px;*/
+  
+  display: block;
+}
+
+#head-text {
+  display: inline-block;
+}
+
+.mayday-title {
+  font-family: 'Oxygen', Helvetica, Verdana, sans-serif;
+  margin: 0px;
+  padding-top: 10px;
+  padding-left: 50px !important;
+}
+
+.mayday-subtitle {
+  margin: 0px;
+  padding-top: 10px;
+  padding-left: 50px !important;
+}
+/** Side panel! **/
+
+#side-button {
+  position: fixed;
+  right: 0;
+  top: 47%;
+  background-color: #A00F00;
+  height: 50px;
+  width: 50px;
+  z-index: 9999;
+}
+
+.mdi-navigation-arrow-back {
+  font-size: 48px;
+  color: white;
+}
+
+.cd-panel {
+  /*...*/
+  
+  width: 42%;
+  float: right;
+  visibility: hidden;
+  position: fixed;
+  transition: visibility 0s 0.6s;
+}
+
+.cd-panel.is-visible {
+  visibility: visible;
+  transition: visibility 0.3s 0.3s;
+}
+
+.cd-panel-container {
+  /*...*/
+  
+  background-color: #A00F00;
+  height: 100%;
+  position: fixed;
+  width: 42%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  transition-property: transform;
+  transition-duration: 0.3s;
+  transition-delay: 0.3s;
+  transform: translate3d(100%, 0, 0);
+}
+
+.is-visible .cd-panel-container {
+  transform: translate3d(0, 0, 0);
+  transition-delay: 0.3s;
+}
+/****/
+
+input[type="radio"]:checked+label:after {
+  border: 2px solid #A00F00;
+  background-color: #A00F00;
+}
+
+input[type="radio"]:not(:checked)+label,
+[type="radio"]:checked+label {
+  font-size: 0.75rem !important;
+}
+
+#dropdown1-group {
+  display: inline-block;
+}
+
+#dropdown2-group {
+  display: inline-block;
+}
+
+#dropdown3-group {
+  display: inline-block;
+}
+
+ul li a {
+  color: #9D0D00 !important;
+}
+
+#dropdown1 {
+  z-index: 999;
+}
+
+#dropdown2 {
+  z-index: 999;
+}
+
+#dropdown3 {
+  z-index: 999;
+}
+
+.barchart-filters {
+  margin-top: 5px;
+  display: inline-block;
+  position: relative;
+  right: 50px;
+  float: right;
+  top: 10px;
+}
+
+.barchart-filters div {
+  display: inline-block;
+}
+
+.heatmap-filters {
+  /*margin-top: 5px;*/
+  
+  display: inline-block;
+  position: relative;
+  /*right: 50px;
+  float: right;
+  top: 10px;*/
+}
+
+#heatmap-panel {
+  max-width: 750px !important;
+  display: inline-block;
+  float: left;
+}
+
+#bar-charts {
+  display: inline-block;
+  position: relative;
+  height: 500px;
+  width: 475px;
+  float: right;
+  margin-right: 53px;
+}
+
+.btn,
+.btn-large {
+  background-color: #A00F00 !important;
+}
+/*#bar-chart-a {
+  top: 0px;
+  left: 0px;
+  height: 250px;
+  width: 300px;
+  display: inline-block;
+}
+
+#bar-chart-b {
+  top: 0px;
+  right: 0px;
+  height: 250px;
+  width: 300px;
+  display: inline-block;
+}
+
+#bar-chart-c {
+  bottom: 0px;
+  left: 0px;
+  height: 250px;
+  width: 300px;
+  display: inline-block;
+}
+
+#bar-chart-d {
+  bottom: 0px;
+  right: 0px;
+  height: 250px;
+  width: 300px;
+  display: inline-block;
+}*/
+
+#slider {
+  float: left;
+  width: 705px;
+  margin: 0px 15px;
+  left: 15px;
+}
+
+.ui-rangeSlider-container {
+  width: 685px;
+}
+
+.ui-range-innerBar {
+  width: 685px;
+}
+
+.ui-rangeSlider-bar {
+  background: #A00F00;
+  width: 685px;
+}
+
+.ui-rangeSlider-handle.ui-rangeSlider-rightHandle {
+  left: 685px;
+}
+
+.ui-rangeSlider-arrow {
+  width: 23px;
+}
+
+.ui-rangeSlider-rightArrow .ui-rangeSlider-arrow-inner {
+  margin-right: -5px;
+}
+
+.ui-rangeSlider-leftArrow .ui-rangeSlider-arrow-inner {
+  margin-left: -5px;
+}
+
+.cd-panel-content {
+  margin: 10px;
+  font-size: 20px;
+}
+/**
+
+
+
+
+**/
+
+.day {
+  fill: #fff;
+  stroke: #ccc;
+}
+
+.month {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2px;
+}
+
+.RdYlGn .q-color0-10 {
+  fill: #FFFFFF;
+}
+
+.RdYlGn .q-color1-10 {
+  fill: #FFFFCC;
+}
+
+.RdYlGn .q-color2-10 {
+  fill: #FFEDA0;
+}
+/**/
+
+.RdYlGn .q-color3-10 {
+  fill: #FED976;
+}
+
+.RdYlGn .q-color4-10 {
+  fill: #FEB24C;
+}
+/**/
+
+.RdYlGn .q-color5-10 {
+  fill: #FD8D3C;
+}
+/**/
+
+.RdYlGn .q-color6-10 {
+  fill: #FC4E2A;
+}
+
+.RdYlGn .q-color7-10 {
+  fill: #E31A1C;
+}
+/**/
+
+.RdYlGn .q-color8-10 {
+  fill: #BD0026;
+}
+/**/
+
+.RdYlGn .q-color9-10 {
+  fill: #800026;
+}
+/**/
+/**/
+
+.q-invisible {
+  fill: white !important;
+}
+/**
+
+
+
+**/
+
+.axis,
+.frame {
+  shape-rendering: crispEdges;
+}
+
+.axis line {
+  stroke: #ddd;
+}
+
+.axis path {
+  display: none;
+}
+
+.frame {
+  fill: none;
+  stroke: #aaa;
+}
+
+circle {
+  fill-opacity: .7;
+}
+
+circle.hidden {
+  fill: #ccc !important;
+}
+
+.extent {
+  fill: #000;
+  fill-opacity: .125;
+  stroke: #fff;
+}

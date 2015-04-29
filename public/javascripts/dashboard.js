@@ -126,7 +126,7 @@
 
     //  Initialize the view.
     rect.filter(function(d) { return d in fatality_data; })
-      .attr("class", function(d) { return (fatality_data[d] === 0) ? "day q-color" + d + "-10" : "day " + fatality_color(fatality_data[d]); })
+      .attr("class", function(d) { return (fatality_data[d] === 0) ? "month-" + d.substring(5, 7) + " day q-color0-10" : "month-" + d.substring(5, 7) + " day " + fatality_color(fatality_data[d]); })
       .select("title")
         .text(function(d) {
           if(fatality_data[d] == 0)
@@ -176,7 +176,7 @@
     function renderRectangle(data, color, id){
       console.log("inside default");
         rect.filter(function(d) { return d in data; })
-          .attr("class", function(d) { return (data[d] === 0) ? "day q-color" + d + "-10" : "day " + color(data[d]); })
+          .attr("class", function(d) { return (data[d] === 0) ? "month-" + d.substring(5, 7) + " day q-color0-10" : "month-" + d.substring(5, 7) + " day " + color(data[d]); })
           .select("title")
             .text(function(d) {
               switch(id)
@@ -222,11 +222,11 @@
 
   d3.selectAll('.day').on('click', function(d){
 
-    // s = JSON.stringify(data_lookup[d])
-    // d3.select('.cd-panel-content').html(s);
-    ko.applyBindings({
-      incidents: data_lookup[d]
-    });
+    s = JSON.stringify(data_lookup[d])
+    d3.select('.cd-panel-content').html(s);
+    // ko.applyBindings({
+    //   incidents: data_lookup[d]
+    // });
   });
 
   $("#slider").bind("valuesChanging", function(e, data){
@@ -293,10 +293,96 @@
          $('ul#dropdown2').css({'opacity': 0}); 
   });
   
-  // $('ul#dropdown3 li a').click(function(e){
-  //        $('#accident-type-dropdown.btn.dropdown-button span').text($(this).text());
-  //        $('ul#dropdown3').hide();
-  //        $('ul#dropdown3').css({'opacity': 0}); 
-  // });
+  //  Note:
+  //    - Sunday: y = 0
+  //    - Monday: y = 13
+  //    - Tuesday: y = 26
+  //    - Wednesday: y = 39
+  //    - Thursday: y = 52
+  //    - Friday: y = 65
+  //    - Saturday: y = 78
+
+    $('ul#dropdown1 li').click(function(){
+
+      switch($(this).text()){
+        case 'Weekday':
+          d3.selectAll('rect.day').style('opacity', 1); 
+          break;
+        case 'Sunday':
+          d3.selectAll('rect.day').style('opacity', function(d){console.log(d3.select(this).attr('y')); if(d3.select(this).attr('y') == 0){return 1;} else {return 0.1;}}); 
+          break;
+        case 'Monday':
+          d3.selectAll('rect.day').style('opacity', function(d){ if(d3.select(this).attr('y') == 13){return 1;} else {return 0.1;}}); 
+          break;
+        case 'Tuesday':
+          d3.selectAll('rect.day').style('opacity', function(d){ if(d3.select(this).attr('y') == 26){return 1;} else {return 0.1;}}); 
+          break;
+        case 'Wednesday':
+          d3.selectAll('rect.day').style('opacity', function(d){ if(d3.select(this).attr('y') == 39){return 1;} else {return 0.1;}}); 
+          break;
+        case 'Thursday':
+          d3.selectAll('rect.day').style('opacity', function(d){ if(d3.select(this).attr('y') == 52){return 1;} else {return 0.1;}}); 
+          break;
+        case 'Friday':
+          d3.selectAll('rect.day').style('opacity', function(d){ if(d3.select(this).attr('y') == 65){return 1;} else {return 0.1;}}); 
+          break;
+        case 'Saturday':
+          d3.selectAll('rect.day').style('opacity', function(d){ if(d3.select(this).attr('y') == 78){return 1;} else {return 0.1;}}); 
+          break;
+        default:
+          break;
+      };
+
+    });
+
+    //  Need to implement a cumulative number...
+    $('ul#dropdown2 li').click(function(){
+
+      switch($(this).text()){
+        case 'Month':
+          d3.selectAll('rect.day').style('opacity', 1); 
+          break;
+        case 'January':
+          d3.selectAll('rect.day').style('opacity', function(d){ if(d3.select(this).classed('month-01')){return 1;} else {return 0.1;}}); 
+          break;
+        case 'February':
+          d3.selectAll('rect.day').style('opacity', function(d){ if(d3.select(this).classed('month-02')){return 1;} else {return 0.1;}}); 
+          break;
+        case 'March':
+          d3.selectAll('rect.day').style('opacity', function(d){ if(d3.select(this).classed('month-03')){return 1;} else {return 0.1;}}); 
+          break;
+        case 'April':
+          d3.selectAll('rect.day').style('opacity', function(d){ if(d3.select(this).classed('month-04')){return 1;} else {return 0.1;}}); 
+          break;
+        case 'May':
+          d3.selectAll('rect.day').style('opacity', function(d){ if(d3.select(this).classed('month-05')){return 1;} else {return 0.1;}}); 
+          break;
+        case 'June':
+          d3.selectAll('rect.day').style('opacity', function(d){ if(d3.select(this).classed('month-06')){return 1;} else {return 0.1;}}); 
+          break;
+        case 'July':
+          d3.selectAll('rect.day').style('opacity', function(d){ if(d3.select(this).classed('month-07')){return 1;} else {return 0.1;}}); 
+          break;
+        case 'August':
+          d3.selectAll('rect.day').style('opacity', function(d){ if(d3.select(this).classed('month-08')){return 1;} else {return 0.1;}}); 
+          break;
+        case 'September':
+          d3.selectAll('rect.day').style('opacity', function(d){ if(d3.select(this).classed('month-09')){return 1;} else {return 0.1;}}); 
+          break;
+        case 'October':
+          d3.selectAll('rect.day').style('opacity', function(d){ if(d3.select(this).classed('month-10')){return 1;} else {return 0.1;}}); 
+          break;
+        case 'November':
+          d3.selectAll('rect.day').style('opacity', function(d){ if(d3.select(this).classed('month-11')){return 1;} else {return 0.1;}}); 
+          break;
+        case 'December':
+          d3.selectAll('rect.day').style('opacity', function(d){ if(d3.select(this).classed('month-12')){return 1;} else {return 0.1;}}); 
+          break;
+        default:
+          break;
+      };
+
+    });
+
 
 })();

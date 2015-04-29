@@ -149,7 +149,6 @@
         updateLegend(selectedCategories);
         updateChart(selectedCategories);
 
-
       }
       //  If the user unchecks this box, update the selected categories.
       else {
@@ -299,9 +298,8 @@
         .on('mouseout', hoverOff);
         // .on('mouseover', function(d) { this.attr('fill', 'red');});
 
-        // console.log("Before selected categories: " + selectedCategories.slice());
     var legend = svg.append("g").attr("class", "legend-group").selectAll(".legend")
-        .data(selectedCategories.slice())
+        .data(selectedCategories.slice(), function(d) { return d; })
       .enter().append("g")
         .attr("class", "legend")
         .attr("transform", function(d, i) { return "translate(-100," + i * 12 + ")"; });
@@ -320,31 +318,39 @@
         .style("text-anchor", "end")
         .text(function(d) { return d; });
 
-        // Need hover feature...
-    // inputs = d3.select('body')
+    //  Need hover feature...
+    // inputs = d3.select('#dropdown3')
     //             .selectAll('input')
-    //             .data(commonKeyValues)
+    //             .data(commonKeyValues, function(d) { return d; })
     //             .enter()
-    //             .append('label')
-    //               .attr('display', 'block')
-    //               .text(function(d){return d;})
+    //             .append('li')
+    //               // .attr('display', 'block')
+    //               // .text(function(d){return d;})
+    //             .append('a')
+    //             .text(function(d){return d + ' ' + '(' + aggregate_data[d] + ')';})
     //             .append('input')
     //               .attr('type', 'checkbox')
     //               .attr('name', 'accident_type')
     //               .attr('value', function(d){return d;})
+    //               // .attr('right', '25px')
+    //               .style('left', '515px')
     //               .property('checked', function(d, i){return (i === 0 || i === 1 || i === 2 || i === 3 || i === 4 || i === 5) ? true : false;})
     //               .on('click', checkboxChecked);
 
-    inputs = d3.select('#dropdown3')
-                .selectAll('input')
-                .data(commonKeyValues)
-                .enter()
-                .append('li')
+
+  inputs = d3.select('#dropdown3')
+                // .selectAll('input')
+                .selectAll('li')
+                .data(commonKeyValues, function(d) { return d; });
+                
+      inputs_sub = inputs.enter()
+                .append('li');
                   // .attr('display', 'block')
                   // .text(function(d){return d;})
-                .append('a')
+      inputs_sub_b = inputs_sub.append('a')
                 .text(function(d){return d + ' ' + '(' + aggregate_data[d] + ')';})
-                .append('input')
+      
+      inputs_sub_b.append('input')
                   .attr('type', 'checkbox')
                   .attr('name', 'accident_type')
                   .attr('value', function(d){return d;})
@@ -353,17 +359,15 @@
                   .property('checked', function(d, i){return (i === 0 || i === 1 || i === 2 || i === 3 || i === 4 || i === 5) ? true : false;})
                   .on('click', checkboxChecked);
 
+          inputs.exit().remove();
 
-      
-
-    // inputs.append('label').text(function(d){return d;})
-
-  });
+    });
   }
 
   generateBarChart("total_hours_flown", "Total Hours Flown");
 
   d3.selectAll('#total-hours-flown, #total-hours-flown-ninety, #total-hours-flown-make, #total-hours-flown-ninety-make').on('click', function() {
+        d3.select('#bar-charts').select('.legend-group').remove();
         d3.select('#bar-charts').select('svg').remove();
       if($('#total-hours-flown').is(':checked')) 
       {

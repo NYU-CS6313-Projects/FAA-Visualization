@@ -5,4 +5,4 @@ This visualization provides interesting insight into the FAA accident/incident d
 
 Current Status: Development In Progress
 
-[Visit the visualization's demo](http://maydayviz.azurewebsites.net/)
+[Visit the visualization's demo](http://maydayviz.azurewebsites.net/1980-visualization)

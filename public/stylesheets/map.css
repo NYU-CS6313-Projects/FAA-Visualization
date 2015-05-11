@@ -1,45 +1,20 @@
-body {
-  padding: 10px 50px 10px 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.background {
+  fill: none;
+  pointer-events: all;
 }
 
-a {
-  color: #00B7FF;
+.feature {
+  fill: #ccc;
+  cursor: pointer;
 }
 
-h1 {
-  font-size: 36px;
+.feature.active {
+  /*fill: #9F0E00;*/
 }
 
-.land {
-  fill: #333;
-}
-
-.border {
+.mesh {
   fill: none;
   stroke: #fff;
-  stroke-linejoin: round;
   stroke-linecap: round;
-}
-
-.bubble {
-  fill: #26a69a;
-  fill-opacity: .5;
-  stroke: #fff;
-  stroke-width: .5px;
-}
-
-.bubble:hover {
-  stroke: #000;
-}
-
-.legend circle {
-  fill: none;
-  stroke: #ccc;
-}
-
-.legend text {
-  fill: #777;
-  font: 10px sans-serif;
-  text-anchor: middle;
+  stroke-linejoin: round;
 }

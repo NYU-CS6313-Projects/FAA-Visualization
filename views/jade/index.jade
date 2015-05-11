@@ -1,28 +1,231 @@
 doctype html
 html(lang='en')
   head
-    title= title
     link(rel='shortcut icon' href='/images/airplane.png')
-    link(rel='stylesheet', href='/stylesheets/reset.css')
-    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/css/materialize.min.css')
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel='stylesheet', href='/stylesheets/map.css')
-    script(type='type/javascript', src='//cdnjs.cloudflare.com/ajax/libs/lodash.js/3.5.0/lodash.min.js')
-    script(type='text/javascript', src='//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js')
-    script(type='text/javascript', src='//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js')
-    script(type='text/javascript', src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js')
-  body
-    h4 MAYDAY
-    h2 FAA Accident Visualization
-    div.container
-      div.row
-        div.col.s3
-        div.col.s3
-        div.col.s3
-        div.col.s3
-      div.row
-        div.col.s3
-        div.col.s3
-        div.col.s3
-        div.col.s3
+    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8') 
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no')
+    meta(name='theme-color', content='#2196F3')
+    title=title
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css')
+    link(rel='stylesheet', href='/stylesheets/front-page.css')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css')
+    script(type='type/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js')
+  body#top.scrollspy
+    div#loader-wrapper
+      div#loader
+        div.loader-section.section-left
+        div.loader-section.section-right
+    div.section.no-pad-bot#index-banner
+      div.container
+        h1.text_h.center.header.cd-headline.letters.type
+          span
+            | MAYDAY
+        h2(style='color:white; text-align:center;')
+          | FAA Accident Visualization
+        p(style='color:white; text-align:center;')
+          | An exploratory visualization tool designed to depict accidents pertaining to non-commercial aircraft, spanning the past 40 years. The data was obtained from the FAA database, which can be found 
+          a(href='http://av-info.faa.gov/dd_sublevel.asp?Folder=%5CAID', target='_blank')
+            | here
 
+    div.section.scrollspy#work
+      div.container
+        h2.header.text_b
+          | Available Date Ranges
+        div.row
+          div.col.s12.m3.l3
+            div.card
+              div.card-image.waves-effect.waves-block.waves-light(style='height:95px')
+                img.activator(style='padding-top:2px; padding-right:2px; padding-left:2px;', src='/images/air3.png')
+              div.card-content
+                span.card-title.activator.grey-text.text-darken-4
+                  | 1975-1979
+                  i.mdi-navigation-more-vert.right
+                p
+                  a(href='http://maydayviz.azurewebsites.net/1975-visualization')
+                    | Visualize Me
+              div.card-reveal
+                span.card-title.grey-text.text-darken-4
+                  | 1975-1979
+                  i.mdi-navigation-close.right
+                p 
+                  | This component visualizes accidents ranging from January 1975 through December 1979.
+          div.col.s12.m3.l3
+            div.card
+              div.card-image.waves-effect.waves-block.waves-light(style='height:95px')
+                img.activator(style='padding-top:2px; padding-right:2px; padding-left:2px;', src='/images/air4.png')
+              div.card-content
+                span.card-title.activator.grey-text.text-darken-4
+                  | 1980-1984
+                  i.mdi-navigation-more-vert.right
+                p
+                  a(href='http://maydayviz.azurewebsites.net/1980-visualization')
+                    | Visualize Me
+              div.card-reveal
+                span.card-title.grey-text.text-darken-4
+                  | 1980-1984
+                  i.mdi-navigation-close.right
+                p 
+                  | This component visualizes accidents ranging from January 1980 through December 1984.
+          div.col.s12.m3.l3
+            div.card
+              div.card-image.waves-effect.waves-block.waves-light(style='height:95px')
+                img.activator(style='padding-top:2px; padding-right:2px; padding-left:2px;', src='/images/air6.jpg')
+              div.card-content
+                span.card-title.activator.grey-text.text-darken-4
+                  | 1985-1989
+                  i.mdi-navigation-more-vert.right
+                p
+                  a(href='http://maydayviz.azurewebsites.net/1985-visualization')
+                    | Visualize Me
+              div.card-reveal
+                span.card-title.grey-text.text-darken-4
+                  | 1985-1989
+                  i.mdi-navigation-close.right
+                p 
+                  | This component visualizes accidents ranging from January 1985 through December 1989.
+          div.col.s12.m3.l3
+            div.card
+              div.card-image.waves-effect.waves-block.waves-light(style='height:95px')
+                img.activator(style='padding-top:2px; padding-right:2px; padding-left:2px;', src='/images/air7.png')
+              div.card-content
+                span.card-title.activator.grey-text.text-darken-4
+                  | 1990-1994
+                  i.mdi-navigation-more-vert.right
+                p
+                  a(href='http://maydayviz.azurewebsites.net/1990-visualization')
+                    | Visualize Me
+              div.card-reveal
+                span.card-title.grey-text.text-darken-4
+                  | 1990-1994
+                  i.mdi-navigation-close.right
+                p 
+                  | This component visualizes accidents ranging from January 1990 through December 1994.
+        div.row
+          div.col.s12.m3.l3
+            div.card
+              div.card-image.waves-effect.waves-block.waves-light(style='height:95px')
+                img.activator(style='padding-top:2px; padding-right:2px; padding-left:2px;', src='/images/air7.png')
+              div.card-content
+                span.card-title.activator.grey-text.text-darken-4
+                  | 1995-1999
+                  i.mdi-navigation-more-vert.right
+                p
+                  a(href='http://maydayviz.azurewebsites.net/1995-visualization')
+                    | Visualize Me
+              div.card-reveal
+                span.card-title.grey-text.text-darken-4
+                  | 1995-1999
+                  i.mdi-navigation-close.right
+                p 
+                  | This component visualizes accidents ranging from January 1995 through December 1999.  
+          div.col.s12.m3.l3
+            div.card
+              div.card-image.waves-effect.waves-block.waves-light(style='height:95px')
+                img.activator(style='padding-top:2px; padding-right:2px; padding-left:2px;', src='/images/air5.png')
+              div.card-content
+                span.card-title.activator.grey-text.text-darken-4
+                  | 2000-2004
+                  i.mdi-navigation-more-vert.right
+                p
+                  a(href='http://maydayviz.azurewebsites.net/2000-visualization')
+                    | Visualize Me
+              div.card-reveal
+                span.card-title.grey-text.text-darken-4
+                  | 2000-2004
+                  i.mdi-navigation-close.right
+                p 
+                  | This component visualizes accidents ranging from January 2000 through December 2004.  
+          div.col.s12.m3.l3
+            div.card
+              div.card-image.waves-effect.waves-block.waves-light(style='height:95px')
+                img.activator(style='padding-top:2px; padding-right:2px; padding-left:2px;', src='/images/air4.png')
+              div.card-content
+                span.card-title.activator.grey-text.text-darken-4
+                  | 2005-2009
+                  i.mdi-navigation-more-vert.right
+                p
+                  a(href='http://maydayviz.azurewebsites.net/2005-visualization')
+                    | Visualize Me
+              div.card-reveal
+                span.card-title.grey-text.text-darken-4
+                  | 2005-2009
+                  i.mdi-navigation-close.right
+                p 
+                  | This component visualizes accidents ranging from January 2005 through December 2009.      
+          div.col.s12.m3.l3
+            div.card
+              div.card-image.waves-effect.waves-block.waves-light(style='height:95px')
+                img.activator(style='padding-top:2px; padding-right:2px; padding-left:2px;', src='/images/air3.png')
+              div.card-content
+                span.card-title.activator.grey-text.text-darken-4
+                  | 2010-2014
+                  i.mdi-navigation-more-vert.right
+                p
+                  a(href='http://maydayviz.azurewebsites.net/2010-visualization')
+                    | Visualize Me
+              div.card-reveal
+                span.card-title.grey-text.text-darken-4
+                  | 2010-2014
+                  i.mdi-navigation-close.right
+                p 
+                  | This component visualizes accidents ranging from January 2010 through December 2014.          
+
+    div.section.scrollspy#team
+      div.container
+        h2.header.text_b
+          | Our Team
+        div.row
+          div.col.s12.m4
+            div.card.card-avatar(style='height:400px')
+              div.waves-effect.waves-block.waves-light
+                img.activator(src='/images/avatar1.png')
+              div.card-content
+                span.card-title.activator.grey-text.text-darken-4
+                  | Ken
+                  br
+                  small
+                    em
+                      a.red-text.text-darken-1(href='#')
+                        | Computer Engineering Undergraduate Student
+                p
+                  a.red-text.text-lighten-2(href='https://www.facebook.com/', style='margin-right:5px;')
+                    i.fa.fa-facebook-square
+                  a.red-text.text-lighten-2(href='https://www.linkedin.com/in/')
+                    i.fa.fa-linkedin-square
+          div.col.s12.m4
+            div.card.card-avatar(style='height:400px')
+              div.waves-effect.waves-block.waves-light
+                img.activator(src='/images/avatar4.png')
+              div.card-content
+                span.card-title.activator.grey-text.text-darken-4
+                  | Diviteja
+                  br
+                  small
+                    em
+                      a.red-text.text-darken-1(href='#')
+                        | Computer Science Graduate Student
+                p
+                  a.red-text.text-lighten-2(href='https://www.facebook.com/', style='margin-right:5px;')
+                    i.fa.fa-facebook-square
+                  a.red-text.text-lighten-2(href='https://www.linkedin.com/in/')
+                    i.fa.fa-linkedin-square
+          div.col.s12.m4
+            div.card.card-avatar(style='height:400px')
+              div.waves-effect.waves-block.waves-light
+                img.activator(src='/images/avatar3.png')
+              div.card-content
+                span.card-title.activator.grey-text.text-darken-4
+                  | Efrayim
+                  br
+                  small
+                    em
+                      a.red-text.text-darken-1(href='#')
+                        | Computer Engineering Undergraduate Student
+                p
+                  a.red-text.text-lighten-2(href='https://www.facebook.com/', style='margin-right:5px;')
+                    i.fa.fa-facebook-square
+                  a.red-text.text-lighten-2(href='https://www.linkedin.com/in/')
+                    i.fa.fa-linkedin-square
+
+    script(type='text/javascript', src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js')
+    script(type='type/javascript', src='//cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js')

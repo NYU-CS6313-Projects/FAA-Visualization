@@ -10,6 +10,7 @@ form p {
 #primary-head {
   /*width: 750px;*/
   
+  padding-left: 25px;
   display: block;
 }
 
@@ -39,6 +40,7 @@ form p {
   height: 50px;
   width: 50px;
   z-index: 9999;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 
 .mdi-navigation-arrow-back {
@@ -63,8 +65,10 @@ form p {
 
 .cd-panel-container {
   /*...*/
-  
-  background-color: #A00F00;
+  overflow-y: scroll;
+  color: white;
+  /*background-color: #A00F00;*/
+  background-color: white;
   height: 100%;
   position: fixed;
   width: 42%;
@@ -75,6 +79,7 @@ form p {
   transition-duration: 0.3s;
   transition-delay: 0.3s;
   transform: translate3d(100%, 0, 0);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 
 .is-visible .cd-panel-container {
@@ -93,12 +98,18 @@ input[type="radio"]:not(:checked)+label,
   font-size: 0.75rem !important;
 }
 
+#dropdown-family {
+  display: inline-block;
+}
+
 #dropdown1-group {
   display: inline-block;
+  margin: 0px 5px;
 }
 
 #dropdown2-group {
   display: inline-block;
+  margin: 0px 5px 0px 0px;
 }
 
 #dropdown3-group {
@@ -122,26 +133,40 @@ ul li a {
 }
 
 .barchart-filters {
-  margin-top: 5px;
+  /*margin-top: 5px;*/
+  
   display: inline-block;
-  position: relative;
-  right: 50px;
-  float: right;
-  top: 10px;
+  /*position: relative;*/
+  /*right: 50px;*/
+  /*float: right;*/
+  /*top: 10px;*/
+  
+  margin-left: 80px;
 }
 
 .barchart-filters div {
+  top: 13px;
   display: inline-block;
+  position: relative;
 }
 
 .heatmap-filters {
   /*margin-top: 5px;*/
   
+  top: 13px;
   display: inline-block;
   position: relative;
-  /*right: 50px;
-  float: right;
-  top: 10px;*/
+  margin-left: 25px;
+  /*right: 50px;*/
+  /*float: right;*/
+  /*top: 10px;*/
+}
+
+.select-view-filters {
+  top: 13px;
+  display: inline-block;
+  position: relative;
+  margin-left: 25px;
 }
 
 #heatmap-panel {
@@ -150,13 +175,15 @@ ul li a {
   float: left;
 }
 
-#bar-charts {
+#side-view {
   display: inline-block;
   position: relative;
   height: 500px;
   width: 475px;
-  float: right;
+  /*float: right;*/
+  
   margin-right: 53px;
+  margin-top: 15px;
 }
 
 .btn,
@@ -202,35 +229,6 @@ ul li a {
   left: 15px;
 }
 
-.ui-rangeSlider-container {
-  width: 685px;
-}
-
-.ui-range-innerBar {
-  width: 685px;
-}
-
-.ui-rangeSlider-bar {
-  background: #A00F00;
-  width: 685px;
-}
-
-.ui-rangeSlider-handle.ui-rangeSlider-rightHandle {
-  left: 685px;
-}
-
-.ui-rangeSlider-arrow {
-  width: 23px;
-}
-
-.ui-rangeSlider-rightArrow .ui-rangeSlider-arrow-inner {
-  margin-right: -5px;
-}
-
-.ui-rangeSlider-leftArrow .ui-rangeSlider-arrow-inner {
-  margin-left: -5px;
-}
-
 .cd-panel-content {
   margin: 10px;
   font-size: 20px;
@@ -252,50 +250,67 @@ ul li a {
   stroke: #000;
   stroke-width: 2px;
 }
+/*.RdYlGn .q-color0-10 {
+  fill: #FFFFFF;
+}*/
 
 .RdYlGn .q-color0-10 {
-  fill: #FFFFFF;
+  /*fill: #FFFFCC;*/
+  
+  fill: #FFF5F0;
 }
 
 .RdYlGn .q-color1-10 {
-  fill: #FFFFCC;
-}
-
-.RdYlGn .q-color2-10 {
-  fill: #FFEDA0;
+  /*fill: #FFEDA0;*/
+  
+  fill: #FEE0D2;
 }
 /**/
 
-.RdYlGn .q-color3-10 {
-  fill: #FED976;
+.RdYlGn .q-color2-10 {
+  /*fill: #FED976;*/
+  
+  fill: #FCBBA1;
 }
 
+.RdYlGn .q-color3-10 {
+  /*fill: #FEB24C;*/
+  
+  fill: #FC9272;
+}
+/**/
+
 .RdYlGn .q-color4-10 {
-  fill: #FEB24C;
+  /*fill: #FD8D3C;*/
+  
+  fill: #FB6A4A;
 }
 /**/
 
 .RdYlGn .q-color5-10 {
-  fill: #FD8D3C;
+  /*fill: #FC4E2A;*/
+  
+  fill: #EF3B2C;
+}
+
+.RdYlGn .q-color6-10 {
+  /*fill: #E31A1C;*/
+  
+  fill: #CB181D;
 }
 /**/
 
-.RdYlGn .q-color6-10 {
-  fill: #FC4E2A;
-}
-
 .RdYlGn .q-color7-10 {
-  fill: #E31A1C;
+  /*fill: #BD0026;*/
+  
+  fill: #A50F15;
 }
 /**/
 
 .RdYlGn .q-color8-10 {
-  fill: #BD0026;
-}
-/**/
-
-.RdYlGn .q-color9-10 {
-  fill: #800026;
+  /*fill: #800026;*/
+  
+  fill: #67000D;
 }
 /**/
 /**/
@@ -308,6 +323,11 @@ ul li a {
 
 
 **/
+
+#dropdown3.dropdown-content li>a, .dropdown-content li>span {
+  font-size: 10px !important;
+  padding: 1rem 1.5rem !important;
+}
 
 .axis,
 .frame {
@@ -339,4 +359,72 @@ circle.hidden {
   fill: #000;
   fill-opacity: .125;
   stroke: #fff;
+}
+
+.area {
+  fill: #A00F00;
+  clip-path: url(#clip);
+}
+
+.brush .extent {
+  stroke: #fff;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
+
+.node rect {
+  cursor: pointer;
+  fill: #fff;
+  fill-opacity: .5;
+  stroke: #5A5A5A;
+  /*stroke: #3182bd;*/
+    /*stroke: #A00F00;*/
+  stroke-width: 1.5px;
+}
+
+.node text {
+  font: 10px sans-serif;
+  pointer-events: none;
+}
+
+path.link {
+  shape-rendering: crispEdges;
+  fill: none;
+  /*stroke: #9ecae1;*/
+  stroke: #B6ADA4;
+  stroke-width: 1.5px;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+#remarks-box  {
+  color: black;
+  font-size: 16px;
 }

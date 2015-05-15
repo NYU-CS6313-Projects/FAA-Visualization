@@ -15,8 +15,9 @@
 .mesh {
   fill: none;
   /*stroke: #fff;*/
+  
   stroke: #4D4D4D;
-  stroke-width:1px;
+  stroke-width: 1px;
   stroke-linecap: round;
   stroke-linejoin: round;
 }

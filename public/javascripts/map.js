@@ -2,8 +2,10 @@ var mapViewModule = (function(){
   "use strict";
 
   var mapView = {};
+  var gatheredData;
 
   mapView.create = function(data, data_type, minimum_date, maximum_date){
+
     var width = 475,
         height = 510,
         active = d3.select(null);
@@ -95,6 +97,8 @@ var mapViewModule = (function(){
           });
         }
 
+        gatheredData = csv;
+
         console.log(csv);
         // console.log(us.objects.states.geometries);
 
@@ -184,6 +188,7 @@ var mapViewModule = (function(){
     });
 
     function clicked(d) {
+      d3.select("#weather-breakdown").remove();
       console.log(d.properties.code);
 
       if (active.node() === this) return reset();
@@ -202,6 +207,8 @@ var mapViewModule = (function(){
           .duration(750)
           .style("stroke-width", 1.5 / scale + "px")
           .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+
+      generateScatterPlot(d.properties.code);
     }
 
     function reset() {
@@ -214,6 +221,136 @@ var mapViewModule = (function(){
           .attr("transform", "translate(100,100)scale(0.6, 0.6)");
     }
 
+    function generateScatterPlot(state) {
+      var count = 0;
+
+      var stateData = d3.nest().key(function(d){return d.state})
+                  .sortKeys(d3.ascending)
+                  .key(function(d){return d.weather})
+                  .rollup(function(leaves){return leaves.length;})
+                  .entries(gatheredData).filter(function(d){return state == d.key});
+
+    console.log(stateData[0].values);
+
+
+    stateData[0].values = stateData[0].values.sort(function(a, b){return b.values - a.values}).filter(function(d, i){return (d.key != "null" && d.key != "Other" && d.key != "Unknown") && (i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5 ||  i == 6 || i == 7);});
+
+      var margin = {top: 20, right: 20, bottom: 30, left: 40},
+          width = 475 - margin.left - margin.right,
+          height = 510 - margin.top - margin.bottom;
+
+        var tip = d3.tip()
+            .attr('class', 'd3-tip')
+            .offset([-10, 0])
+            .html(function(d) {
+              return "<strong>Frequency:</strong> <span style='color:red'>" + d.values + "</span>";
+            })
+
+      var x = d3.scale.ordinal()
+          .rangeRoundBands([0, width], .1, 1);
+
+      var y = d3.scale.linear()
+          .range([height, 0]);
+
+      var xAxis = d3.svg.axis()
+          .scale(x)
+          .orient("bottom");
+
+      var yAxis = d3.svg.axis()
+          .scale(y)
+          .orient("left")
+          .tickFormat(d3.format(".2s"));
+
+      // var svg = d3.select("#side-view").append("svg")
+      //     .attr("width", width + margin.left + margin.right)
+      //     .attr("height", height + margin.top + margin.bottom)
+        var barChart = svg.append("g").attr("id", "weather-breakdown")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      svg.call(tip);
+
+      var color = d3.scale.ordinal()
+        .range([ "#B2182B", "#E08214", "#676767", "#EF8A62",  "#D8B365", "#999999"]);
+
+        stateData[0].values.forEach(function(d) {
+          d.values = +d.values;
+        });
+
+        x.domain(stateData[0].values.map(function(d) { return d.key; }));
+        y.domain([0, d3.max(stateData[0].values, function(d) { return d.values; })]);
+
+        barChart.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis)
+            .selectAll(".tick text")
+      .call(wrap, x.rangeBand());
+
+        barChart.append("g")
+            .attr("class", "y axis")
+            // .attr("transform", "translate(35,0)")
+            .call(yAxis)
+          .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("Frequency");
+
+        barChart.selectAll(".bar")
+            .data(stateData[0].values)
+          .enter().append("rect")
+            .attr("class", "bar")
+            .attr("x", function(d) { return x(d.key); })
+            .attr("width", x.rangeBand())
+            .attr("y", function(d) { return y(d.values); })
+            .attr("height", function(d) { return height - y(d.values); })
+            .style("fill", function(d){return color(d.key);})
+            .on('mouseover', function(d){
+          tip.show(d);
+          hoverBar(d);
+        })
+      .on('mouseout', function(d){tip.hide(d); hoverOff(d);});;
+        
+        function wrap(text, width) {
+            text.each(function() {
+              var text = d3.select(this),
+                  words = text.text().split(/\s+/).reverse(),
+                  word,
+                  line = [],
+                  lineNumber = 0,
+                  lineHeight = 1.1, // ems
+                  y = text.attr("y"),
+                  dy = parseFloat(text.attr("dy")),
+                  tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+              while (word = words.pop()) {
+                line.push(word);
+                tspan.text(line.join(" "));
+                if (tspan.node().getComputedTextLength() > width) {
+                  line.pop();
+                  tspan.text(line.join(" "));
+                  line = [word];
+                  tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+                }
+              }
+            });
+          }
+
+        function hoverBar(d) {
+      // var s = "<p>" + d.category + "</p>";
+
+          // var hoveredBar = d3.select(this);
+          d3.selectAll('g .bar').filter(function(e){return e !== d}).style('opacity', 0.2);
+          // d3.select('#hello').html(s);
+        }
+
+        function hoverOff() {
+            d3.selectAll('g .bar').style('opacity', 1);
+        }
+
+      console.log(stateData);
+
+      }
   };
 
     mapView.update = function(){

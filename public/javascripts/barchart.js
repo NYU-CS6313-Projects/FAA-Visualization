@@ -24,8 +24,25 @@ var barChartModule = (function(){
         .range([height, 0]);
 
     var color = d3.scale.ordinal()
-        .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c"]);
+    .range([ "#B2182B", "#E08214", "#676767", "#EF8A62",  "#D8B365", "#999999"]);
+
+
+
+    var color_hash = {
+                      "#B2182B": true, 
+                      "#E08214": true, 
+                      "#676767": true, 
+                      "#EF8A62": true,  
+                      "#D8B365": true, 
+                      "#999999": true
+                    }
+
+
+            // .range(["#B2182B", "#E08214", "#4D4D4D", "#EF8A62",  "#D8B365", "#999999"]);
+        // .range(["#B2182B", "#EF8A62", "#FDDBC7", "#E0E0E0", "#999999", "#4D4D4D"]);
         // .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c"]);
+
+        
 
     var xAxis = d3.svg.axis()
         .scale(x0)
@@ -49,12 +66,10 @@ var barChartModule = (function(){
   barChart.create = function(minimum_date, maximum_date){
 
     function hoverBar(d) {
-      // console.log(d);
       // var s = "<p>" + d.category + "</p>";
 
       // var hoveredBar = d3.select(this);
-      d3.selectAll('.g rect').filter(function(e){return e !== d}).style('opacity', 0.3);
-            console.log(d3.select(this));
+      d3.selectAll('.g rect').filter(function(e){return e !== d}).style('opacity', 0.2);
       // d3.select('#hello').html(s);
     }
 
@@ -71,8 +86,6 @@ var barChartModule = (function(){
             d.categories = selectedCategories.map(function(category) {return {category: category, frequency: +d[category]}; });
           });
 
-        // console.log("BarChartData inside update chart: " + barChartData);
-
           x0.domain(binXAxis.concat("0 - 199").concat("200 - 399").concat("400 - 599").concat("600 - 799").concat("800 - 999").concat("1000+"));
           x1.domain(selectedCategories).rangeRoundBands([0, x0.rangeBand()]);
           y.domain([0, d3.max(barChartData, function(d) { return d3.max(d.categories, function(d) { return d.frequency; }); })]);
@@ -81,8 +94,6 @@ var barChartModule = (function(){
         .duration(800).call(xAxis)
         svg.selectAll('.y.axis').transition()
         .duration(800).call(yAxis)
-
-        // console.log(barChartData);
 
         //  Update...
     var bin = svg.selectAll(".g")
@@ -114,9 +125,6 @@ var barChartModule = (function(){
         // .on('mouseover', function(d) { this.attr('fill', 'red');});
 
           bin.exit().remove();
-          
-
-
         }
 
         function updateLegend(selectedCategories) {
@@ -143,12 +151,10 @@ var barChartModule = (function(){
           .attr("dy", ".35em")
           .attr("font-size", "10px")
           .style("text-anchor", "end")
-          .text(function(d) { return d; });
+          .text(function(d) { return d; })
+          .attr("fill", "#9e9e9e");
 
           legend.exit().remove();
-
-
-
 
         }
 
@@ -197,7 +203,7 @@ var barChartModule = (function(){
     }
 
 
-    function generateBarChart(totalHoursParameter, xAxisTitle) {
+    function generateBarChart(totalHoursParameter, xAxisTitle, filterHash) {
 
       svg = d3.select("#side-view").append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -221,21 +227,74 @@ var barChartModule = (function(){
           });
       }
 
+      //  To verify the bin exists or not.
+      var binHash = {"0 - 199":0, "200 - 399":0, "400 - 599":0, "600 - 799":0, "800 - 999":0, "1000+":0, "Unknown": 0};
+
+      //  Retrieves data in the following format:
+      //    6 objects: each object in the following format {key: 'bin_value', values: [array of objects in key/value pair]}
        category_data = d3.nest().key(function(d){
           return 0 <= d[totalHoursParameter] && d[totalHoursParameter] < 200 ?
-            "0 - 199" : (200 <= d[totalHoursParameter] && d[totalHoursParameter] < 400 ?
-                          "200 - 399" : (400 <= d[totalHoursParameter] && d[totalHoursParameter] < 600 ?
-                                          "400 - 599" : (600 <= d[totalHoursParameter] && d[totalHoursParameter] < 800 ?
-                                                          "600 - 799" : (800 <= d[totalHoursParameter] && d[totalHoursParameter] < 1000 ?
-                                                                          "800 - 999" : "1000+"))));
+            (binHash["0 - 199"] += 1, "0 - 199") : (200 <= d[totalHoursParameter] && d[totalHoursParameter] < 400 ?
+                          (binHash["200 - 399"] += 1, "200 - 399") : (400 <= d[totalHoursParameter] && d[totalHoursParameter] < 600 ?
+                                          (binHash["400 - 599"] += 1, "400 - 599") : (600 <= d[totalHoursParameter] && d[totalHoursParameter] < 800 ?
+                                                          (binHash["600 - 799"] += 1, "600 - 799") : (800 <= d[totalHoursParameter] && d[totalHoursParameter] < 1000 ?
+                                                                          (binHash["800 - 999"] += 1, "800 - 999") : (d[totalHoursParameter] >= 1000 ?
+                                                                                (binHash["1000+"] += 1, "1000+") : (binHash["Unknown"] += 1, "Unknown") )))));
         })
-      .key(function(d) { return d.primary_cause; })
+      .key(function(d) {return d.primary_cause;})
       .sortKeys(d3.ascending)
       .rollup(function(leaves){ 
           return leaves.length;
         }).entries(data);
 
-        formattedCategoryData = category_data.map(function(d){
+      // console.log(binHash);
+
+      if(binHash["0 - 199"] == 0)
+      {
+        category_data.push({key: "0 - 199", values: [{key: "Advanced Throttle Rapidly", values: 0}, {key: "Aerobatics Below Safe Altitude", values: 0}, {key: "Aircraft Improperly Aligned With Runway", values: 0}, {key: "Aircraft Improperly Equipped for Flight", values: 0}, {key: "Attempt Operation With Different Equipment", values: 0}, {key: "Attempted Operations Beyond Experience Level", values: 0}, {key: "Blown Over By Strong Wind", values: 0}]});
+      }
+      if(binHash["200 - 399"] == 0)
+      {
+        category_data.push({key: "200 - 399", values: [{key: "Advanced Throttle Rapidly", values: 0}, {key: "Aerobatics Below Safe Altitude", values: 0}, {key: "Aircraft Improperly Aligned With Runway", values: 0}, {key: "Aircraft Improperly Equipped for Flight", values: 0}, {key: "Attempt Operation With Different Equipment", values: 0}, {key: "Attempted Operations Beyond Experience Level", values: 0}, {key: "Blown Over By Strong Wind", values: 0}]});
+      }
+      if(binHash["400 - 599"] == 0)
+      {
+        category_data.push({key: "400 - 599", values: [{key: "Advanced Throttle Rapidly", values: 0}, {key: "Aerobatics Below Safe Altitude", values: 0}, {key: "Aircraft Improperly Aligned With Runway", values: 0}, {key: "Aircraft Improperly Equipped for Flight", values: 0}, {key: "Attempt Operation With Different Equipment", values: 0}, {key: "Attempted Operations Beyond Experience Level", values: 0}, {key: "Blown Over By Strong Wind", values: 0}]});
+      }
+      if(binHash["600 - 799"] == 0)
+      {
+        category_data.push({key: "600 - 799", values: [{key: "Advanced Throttle Rapidly", values: 0}, {key: "Aerobatics Below Safe Altitude", values: 0}, {key: "Aircraft Improperly Aligned With Runway", values: 0}, {key: "Aircraft Improperly Equipped for Flight", values: 0}, {key: "Attempt Operation With Different Equipment", values: 0}, {key: "Attempted Operations Beyond Experience Level", values: 0}, {key: "Blown Over By Strong Wind", values: 0}]});
+      }
+      if(binHash["800 - 999"] == 0)
+      {
+        category_data.push({key: "800 - 999", values: [{key: "Advanced Throttle Rapidly", values: 0}, {key: "Aerobatics Below Safe Altitude", values: 0}, {key: "Aircraft Improperly Aligned With Runway", values: 0}, {key: "Aircraft Improperly Equipped for Flight", values: 0}, {key: "Attempt Operation With Different Equipment", values: 0}, {key: "Attempted Operations Beyond Experience Level", values: 0}, {key: "Blown Over By Strong Wind", values: 0}]});
+      }
+      if(binHash["1000+"] == 0)
+      {
+        category_data.push({key: "1000+", values: [{key: "Advanced Throttle Rapidly", values: 0}, {key: "Aerobatics Below Safe Altitude", values: 0}, {key: "Aircraft Improperly Aligned With Runway", values: 0}, {key: "Aircraft Improperly Equipped for Flight", values: 0}, {key: "Attempt Operation With Different Equipment", values: 0}, {key: "Attempted Operations Beyond Experience Level", values: 0}, {key: "Blown Over By Strong Wind", values: 0}]});
+      }
+      if(binHash["Unknown"] == 0)
+      {
+        category_data.push({key: "Unknown", values: [{key: "Advanced Throttle Rapidly", values: 0}, {key: "Aerobatics Below Safe Altitude", values: 0}, {key: "Aircraft Improperly Aligned With Runway", values: 0}, {key: "Aircraft Improperly Equipped for Flight", values: 0}, {key: "Attempt Operation With Different Equipment", values: 0}, {key: "Attempted Operations Beyond Experience Level", values: 0}, {key: "Blown Over By Strong Wind", values: 0}]});
+      }
+
+      // console.log(category_data);
+
+      category_data = category_data.filter(function(d){
+        if(d.values.length == 1 && d.values[0]["key"] == "null")
+        {
+          // console.log("Inside");
+          d.values.push({key: "Advanced Throttle Rapidly", values: 0}, {key: "Aerobatics Below Safe Altitude", values: 0}, {key: "Aircraft Improperly Aligned With Runway", values: 0}, {key: "Aircraft Improperly Equipped for Flight", values: 0}, {key: "Attempt Operation With Different Equipment", values: 0}, {key: "Attempted Operations Beyond Experience Level", values: 0}, {key: "Blown Over By Strong Wind", values: 0});
+          return d;
+        }
+        else
+          return d;
+
+      });
+
+      //  Converts the above in the following format:
+      //    6 objects: each object in the following format {0: {'cause': count}, ...}
+        formattedCategoryData = category_data.filter(function(d){return d.key != "Unknown"}).map(function(d){
           var obj = {};
 
           obj["bin"] = d.key;
@@ -247,61 +306,137 @@ var barChartModule = (function(){
           return obj;
         });
 
-        // console.log("Category Data");
-        // console.log(category_data);
+            // console.log(formattedCategoryData);
 
-      function commonKeys(obj1, obj2, obj3, obj4, obj5, obj6) {
+
+        //  Technically speaking, this function does not need to aggregate the common keys since we're dealing with reported accident types.
+        //  Instead, take the maximum of each bin and make that one of the six categories.
+      // function commonKeys(obj1, obj2, obj3, obj4, obj5, obj6) {
+      //   var keys = [];
+      //   for(var i in obj1) {
+      //     if(i in obj2 && i in obj3 && i in obj4 && i in obj5 && i in obj6 && i !== "null" && i !== "bin") {
+      //       keys.push(i);
+      //       aggregate_data[i] = 0;
+      //     }
+      //   }              
+      //   return keys;
+      // }
+
+      function extractUniqueKeys(obj1, obj2, obj3, obj4, obj5, obj6){
         var keys = [];
         for(var i in obj1) {
-          if(i in obj2 && i in obj3 && i in obj4 && i in obj5 && i in obj6 && i !== "null" && i !== "bin") {
+          if(i !== "null" && i !== "bin") {
             keys.push(i);
             aggregate_data[i] = 0;
           }
-        }              
-        return keys;
+        }
+        for(var i in obj2) {
+          if(i !== "null" && i !== "bin" && !(i in obj1)) {
+            keys.push(i);
+            aggregate_data[i] = 0;
+          }
+        }
+        for(var i in obj3) {
+          if(i !== "null" && i !== "bin" && !(i in obj1) && !(i in obj2)) {
+            keys.push(i);
+            aggregate_data[i] = 0;
+          }
+        }
+        for(var i in obj4) {
+          if(i !== "null" && i !== "bin" && !(i in obj1) && !(i in obj2) && !(i in obj3)) {
+            keys.push(i);
+            aggregate_data[i] = 0;
+          }
+        }
+        for(var i in obj5) {
+          if(i !== "null" && i !== "bin" && !(i in obj1) && !(i in obj2) && !(i in obj3) && !(i in obj4)) {
+            keys.push(i);
+            aggregate_data[i] = 0;
+          }
+        }
+        for(var i in obj6) {
+          if(i !== "null" && i !== "bin" && !(i in obj1) && !(i in obj2) && !(i in obj3) && !(i in obj4) && !(i in obj5)) {
+            keys.push(i);
+            aggregate_data[i] = 0;
+          }
+        }
+        return keys.sort();
       }
 
-      var commonKeyValues = commonKeys(formattedCategoryData[0], formattedCategoryData[1], formattedCategoryData[2], formattedCategoryData[3], formattedCategoryData[4], formattedCategoryData[5]);
+      function maxKeyValue(obj, keyOne, keyTwo, keyThree, keyFour, keyFive){
+        // console.log(obj);
 
-      // console.log("Common Key Values");
-      // console.log(formattedCategoryData);
+        if(keyOne == undefined && keyTwo == undefined && keyThree == undefined && keyFour == undefined && keyFive == undefined)
+          return Object.keys(obj).filter(function(d){return d !== "null" && d !== "bin"; }).reduce(function(a, b){return  (obj[a] > obj[b]) ? a : b });
+        else
+          return Object.keys(obj).filter(function(d){return d !== "null" && d !== "bin" && d !== keyOne && d !== keyTwo && d !== keyThree && d !== keyFour && d !== keyFive; }).reduce(function(a, b){return  (obj[a] > obj[b]) ? a : b });
+      }
+
+      var bin0Category = maxKeyValue(formattedCategoryData[0]);
+      var bin1Category = maxKeyValue(formattedCategoryData[1], bin0Category);
+      var bin2Category = maxKeyValue(formattedCategoryData[2], bin0Category, bin1Category);
+      var bin3Category = maxKeyValue(formattedCategoryData[3], bin0Category, bin1Category, bin2Category);
+      var bin4Category = maxKeyValue(formattedCategoryData[4], bin0Category, bin1Category, bin2Category, bin3Category);
+      var bin5Category = maxKeyValue(formattedCategoryData[5], bin0Category, bin1Category, bin2Category, bin3Category, bin4Category);
+
+      //  undefined statements....
+
+      var uniqueKeyValues = extractUniqueKeys(formattedCategoryData[0], formattedCategoryData[1], formattedCategoryData[2], formattedCategoryData[3], formattedCategoryData[4], formattedCategoryData[5]);
+
+      // var commonKeyValues = commonKeys(formattedCategoryData[0], formattedCategoryData[1], formattedCategoryData[2], formattedCategoryData[3], formattedCategoryData[4], formattedCategoryData[5]);
+
+      // console.log(commonKeyValues);
 
       barChartData = formattedCategoryData.map(function(d){
         var obj = {};
 
         obj["bin"] = d["bin"];
-        for(var i = 0; i < commonKeyValues.length; i++)
+        for(var i = 0; i < uniqueKeyValues.length; i++)
         {
-          obj[commonKeyValues[i]] = d[commonKeyValues[i]];
-          aggregate_data[commonKeyValues[i]] += d[commonKeyValues[i]];
+          if(d[uniqueKeyValues[i]] == undefined)
+          {
+            obj[uniqueKeyValues[i]] = 0;
+            aggregate_data[uniqueKeyValues[i]] += 0;
+          }
+          else
+          {
+            obj[uniqueKeyValues[i]] = d[uniqueKeyValues[i]];
+            aggregate_data[uniqueKeyValues[i]] += d[uniqueKeyValues[i]];
+          }
         }
 
         return obj;
       });
 
-      // console.log("Bar Chart Data");
-      console.log(barChartData);
-
-      // console.log(category_data);
-      // console.log(formattedCategoryData);
-      // console.log(commonKeyValues);
       // console.log(barChartData);
-      // console.log(aggregate_data);
 
-      selectedCategories = commonKeyValues.filter(function(key, i) { return i === 0 || i === 1 || i === 2 || i === 3 || i === 4 || i === 5; });
+      if(filterHash == undefined)
+      {
+        selectedCategories = uniqueKeyValues.filter(function(key, i) { return key === bin0Category || key === bin1Category || key === bin2Category || key === bin3Category || key === bin4Category || key === bin5Category;});
 
-      var selected_obj  = {};
-      for(var i = 0, l = selectedCategories.length; i < l; i++) {
-          selected_obj[selectedCategories[i]] = true;
+        var selected_obj  = {};
+        for(var i = 0, l = selectedCategories.length; i < l; i++) {
+            selected_obj[selectedCategories[i]] = true;
+        }
+
+        barChartData.forEach(function(d){
+          d.categories = selectedCategories.map(function(category) {return {category: category, frequency: +d[category]}; });
+        });
+      }
+      else
+      {
+        selectedCategories = uniqueKeyValues.filter(function(key, i) { return key in filterHash;});
+
+        var selected_obj  = {};
+        for(var i = 0, l = selectedCategories.length; i < l; i++) {
+            selected_obj[selectedCategories[i]] = true;
+        }
+
+        barChartData.forEach(function(d){
+          d.categories = selectedCategories.map(function(category) {return {category: category, frequency: +d[category]}; });
+        });
       }
 
-      // console.log("Selected!!!");
-      // console.log(selectedCategories);
-      // console.log("........");
-
-      barChartData.forEach(function(d){
-        d.categories = selectedCategories.map(function(category) {return {category: category, frequency: +d[category]}; });
-      });
 
       // x0.domain(barChartData.map(function(d) {console.log('bin: ' + d.bin); return d.bin; }));
       x0.domain(binXAxis.concat("0 - 199").concat("200 - 399").concat("400 - 599").concat("600 - 799").concat("800 - 999").concat("1000+"));
@@ -318,7 +453,8 @@ var barChartModule = (function(){
           .attr("x", width / 2 + 50)
           .style("text-anchor", "end")
           .style("z-index", 999)
-          .text(xAxisTitle);;
+          .text(xAxisTitle)
+          .attr("fill", "#9e9e9e");
 
       svg.append("g")
           .attr("class", "y axis")
@@ -330,7 +466,8 @@ var barChartModule = (function(){
           .attr("dy", ".01em")
           .style("text-anchor", "end")
           .style("z-index", 999)
-          .text("Frequency");
+          .text("Frequency")
+          .attr("fill", "#9e9e9e");
 
       var bin = svg.selectAll(".bins")
           .data(barChartData)
@@ -346,7 +483,7 @@ var barChartModule = (function(){
           .attr("y", function(d) { return y(d.frequency); })
           // .transition().duration(800)
           .attr("height", function(d) { return height - y(d.frequency); })
-          .style("fill", function(d) { return color(d.category); })
+          .style("fill", function(d) {if(color(d.category) in color_hash){ color_hash[color(d.category)] = true; } return color(d.category); })
           // .on('mouseover', hoverBar)
           // .on('mouseout', hoverOff);
           .on('mouseover', function(d){tip.show(d); hoverBar(d);})
@@ -371,32 +508,13 @@ var barChartModule = (function(){
           .attr("dy", ".35em")
           .attr("font-size", "10px")
           .style("text-anchor", "end")
-          .text(function(d) { return d; });
-
-      //  Need hover feature...
-      // inputs = d3.select('#dropdown3')
-      //             .selectAll('input')
-      //             .data(commonKeyValues, function(d) { return d; })
-      //             .enter()
-      //             .append('li')
-      //               // .attr('display', 'block')
-      //               // .text(function(d){return d;})
-      //             .append('a')
-      //             .text(function(d){return d + ' ' + '(' + aggregate_data[d] + ')';})
-      //             .append('input')
-      //               .attr('type', 'checkbox')
-      //               .attr('name', 'accident_type')
-      //               .attr('value', function(d){return d;})
-      //               // .attr('right', '25px')
-      //               .style('left', '515px')
-      //               .property('checked', function(d, i){return (i === 0 || i === 1 || i === 2 || i === 3 || i === 4 || i === 5) ? true : false;})
-      //               .on('click', checkboxChecked);
-
+          .text(function(d) { return d; })
+          .attr("fill", "#9e9e9e");
 
     var inputs = d3.select('#dropdown3')
                   // .selectAll('input')
                   .selectAll('li')
-                  .data(commonKeyValues, function(d) { return d; });
+                  .data(uniqueKeyValues, function(d) { return d; });
                   
         var inputs_sub = inputs.enter()
                   .append('li');
@@ -428,18 +546,29 @@ var barChartModule = (function(){
     generateBarChart("total_hours_flown", "Total Hours Flown");
 
     d3.selectAll('#total-hours-flown, #total-hours-flown-ninety, #total-hours-flown-make, #total-hours-flown-ninety-make').on('click', function() {
+      var filter_hash = {}; 
           d3.select('#side-view').select('.legend-group').remove();
           d3.select('#side-view').select('svg').remove();
         if($('#total-hours-flown').is(':checked')) 
         {
-          generateBarChart("total_hours_flown", "Total Hours Flown");
+          d3.selectAll('#dropdown3 li input').filter(function(d){if(d3.select(this).property('checked')){ filter_hash[d3.select(this)[0][0].__data__] = true;}});
+          generateBarChart("total_hours_flown", "Total Hours Flown", filter_hash);
         }
         if($('#total-hours-flown-ninety').is(':checked')) 
-          generateBarChart("hours_flown_90_days", "Total Hours Flown (Past 90 Days)");
+        {
+          d3.selectAll('#dropdown3 li input').filter(function(d){if(d3.select(this).property('checked')){ filter_hash[d3.select(this)[0][0].__data__] = true;}});
+          generateBarChart("hours_flown_90_days", "Total Hours Flown (Past 90 Days)", filter_hash);
+        }
         if($('#total-hours-flown-make').is(':checked'))
-          generateBarChart("total_hours_model_flown", "Total Hours Flown - Make/Model");
+        {
+          d3.selectAll('#dropdown3 li input').filter(function(d){if(d3.select(this).property('checked')){ filter_hash[d3.select(this)[0][0].__data__] = true;}});
+          generateBarChart("total_hours_model_flown", "Total Hours Flown - Make/Model", filter_hash);
+        }
         if($('#total-hours-flown-ninety-make').is(':checked'))
-          generateBarChart("hours_model_flown_90_days", "Total Hours Flown (Past 90 Days) - Make/Model");
+        {
+          d3.selectAll('#dropdown3 li input').filter(function(d){if(d3.select(this).property('checked')){ filter_hash[d3.select(this)[0][0].__data__] = true;}});
+          generateBarChart("hours_model_flown_90_days", "Total Hours Flown (Past 90 Days) - Make/Model", filter_hash);
+        }
       }); 
 
     $(document).mouseup(function (e)

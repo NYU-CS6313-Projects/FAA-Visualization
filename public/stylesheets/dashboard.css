@@ -1,6 +1,7 @@
 body {
   font: 10px sans-serif;
   shape-rendering: crispEdges;
+  background-color: #242426;
 }
 
 form p {
@@ -67,6 +68,7 @@ form p {
   /*...*/
   overflow-y: scroll;
   color: white;
+  background-color: #242426;
   /*background-color: #A00F00;*/
   background-color: white;
   height: 100%;
@@ -247,7 +249,8 @@ ul li a {
 
 .month {
   fill: none;
-  stroke: #000;
+  /*stroke: #000;*/
+  stroke: #4D4D4D;
   stroke-width: 2px;
 }
 /*.RdYlGn .q-color0-10 {
@@ -257,7 +260,8 @@ ul li a {
 .RdYlGn .q-color0-10 {
   /*fill: #FFFFCC;*/
   
-  fill: #FFF5F0;
+  /*fill: #FFF5F0;*/
+  fill: #FFFFFF;
 }
 
 .RdYlGn .q-color1-10 {
@@ -362,7 +366,8 @@ circle.hidden {
 }
 
 .area {
-  fill: #A00F00;
+  /*fill: #A00F00;*/
+  fill: #B2182B;
   clip-path: url(#clip);
 }
 
@@ -427,4 +432,12 @@ path.link {
 #remarks-box  {
   color: black;
   font-size: 16px;
+}
+
+.tick line, .tick text {
+  fill: #9e9e9e;
+}
+
+#heatmap-panel g text {
+  fill: #9e9e9e;
 }

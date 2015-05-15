@@ -11,7 +11,7 @@ The raw data can be obtained from the FAA's incident/accident database, which is
 ###Running Locally
 Install Node.js on the local machine, clone the repository, and execute the following command:
 
-npm start
+  npm start
 
 ###Live demo
 [Visit the visualization's demo](http://maydayviz.azurewebsites.net/)

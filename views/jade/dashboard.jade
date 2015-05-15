@@ -77,11 +77,11 @@ html(lang='en')
             span Accident Types
       form(action="#").heatmap-filters
         p.accidents-input
-          input(name='heatmap', type='radio', id='accidents')
+          input(name='heatmap', type='radio', id='accidents', checked)
           label(for="accidents")
             | Accidents
         p.fatalities-input
-          input(name='heatmap', type='radio', id='fatalities', checked)
+          input(name='heatmap', type='radio', id='fatalities')
           label(for="fatalities")
             | Fatalities
       form(action="#").select-view-filters

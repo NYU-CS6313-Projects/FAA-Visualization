@@ -17,7 +17,7 @@ Install Node.js on the local machine, clone the repository, and execute the foll
 [Visit the visualization's demo](http://maydayviz.azurewebsites.net/)
 
 ###Final Proposal
-(Submitted via NYU NewClasses. Will be pushed to the GitHub repository shortly after the deadline.)
+![Final Documentation](https://github.com/NYU-CS6313-Projects/FAA-Visualization/blob/master/documentation.pdf)
 
 ###Video
 [Visit the demonstration](https://vimeo.com/128098177)
